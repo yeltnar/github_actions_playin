@@ -1,52 +1,45 @@
-name: GitHub Actions Demo
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
-on: [push]
+name: GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
 jobs:
-  # Explore-GitHub-Actions:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-  #     - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-  #     - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      
-  #     - name: List files in the repository
-  #       run: |
-  #         ls ${{ github.workspace }}
-      
-  #     - run: echo "🍏 This job's status is ${{ job.status }}."
-  
-  # testing:
-  #   runs-on: ubuntu-latest
-
-  # build: 
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - uses: actions/checkout@v3
-  #     - uses: actions/setup-node@v3
-  #     - run: cd github_actions_playin && npm install && npm run build --if-present
-  #     - run: command -v git
-
-  deploy: 
-    runs-on: ubuntu-latest
-
-    steps: 
+  deploy:
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: write
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+    steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: pwd;ls;command -v git
-      - run: |
-          cd github_actions_playin && 
-          npm install && 
-          npm run build --if-present && 
-          mv build ../ &&
-          cd ..
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '14'
+
+      - name: Get yarn cache
+        id: yarn-cache
+        run: echo "YARN_CACHE_DIR=$(yarn cache dir)" >> "${GITHUB_OUTPUT}"
+
+      - name: Cache dependencies
+        uses: actions/cache@v3
+        with:
+          path: ${{ steps.yarn-cache.outputs.YARN_CACHE_DIR }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+
+      - run: yarn install --frozen-lockfile
+      - run: yarn build
+      - run: yarn export
+
       - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3        
+        uses: peaceiris/actions-gh-pages@v3
+        if: ${{ github.ref == 'refs/heads/main' }}
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
-      - run: |
-          rm -rf github_actions_playin &&
-          git add . &&
-          git commit -m 'auto build' &&
-          git push -fu origin gh-pages
+          publish_dir: ./out
