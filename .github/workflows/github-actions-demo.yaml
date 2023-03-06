@@ -40,6 +40,12 @@ jobs:
           npm run build --if-present && 
           mv build ../ &&
           cd .. &&
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3        
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+      - run: |
           rm -rf github_actions_playin &&
           git add . &&
           git commit -m 'auto build' &&
