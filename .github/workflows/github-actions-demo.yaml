@@ -8,14 +8,7 @@ jobs:
       - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
       - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: npm install
-        with:
-          node-version: '16.x'
-        run: npm run install
-      - name: npm build
-        with:
-          node-version: '16.x'
-        run: npm run build
+      
 
       
       - name: List files in the repository
@@ -23,3 +16,11 @@ jobs:
           ls ${{ github.workspace }}
       
       - run: echo "🍏 This job's status is ${{ job.status }}."
+
+  build: 
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - run: npm run build --if-present
