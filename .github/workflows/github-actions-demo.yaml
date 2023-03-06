@@ -10,11 +10,11 @@ jobs:
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: npm install
         with:
-          node-version: 'v16.x'
+          node-version: '16.x'
         run: npm run install
       - name: npm build
         with:
-          node-version: 'v16.x'
+          node-version: '16.x'
         run: npm run build
 
       
