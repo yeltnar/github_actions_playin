@@ -32,4 +32,13 @@ jobs:
 
     steps: 
       - run: pwd;ls;command -v git
-      # - run: git push -fu origin gh-pages
+      - run: |
+          cd github_actions_playin && 
+          npm install && 
+          npm run build --if-present && 
+          mv build ../ &&
+          cd .. &&
+          rm -rf github_actions_playin &&
+          git add . &&
+          git commit -m 'auto build' &&
+          git push -fu origin gh-pages
