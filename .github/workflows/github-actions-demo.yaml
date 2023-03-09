@@ -63,8 +63,6 @@ jobs:
           git config --global user.name "Drew Bot" &&
           rm -rf github_actions_playin &&
           git add . &&
-          git add build &&
-          git status && 
           find . | awk '!/node_modules/{print $0}' | awk '!/\.git/{print}' &&
           git commit -m 'auto build' &&
           git remote remove origin && 
