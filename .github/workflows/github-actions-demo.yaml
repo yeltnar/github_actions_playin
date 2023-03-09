@@ -47,7 +47,7 @@ jobs:
           cd github_actions_playin && 
           npm install && 
           npm run build --if-present && 
-          mv build ../ &&
+          mv build ../docs &&
           cd ..
       - run: pwd;ls;command -v git
       # - name: Deploy
