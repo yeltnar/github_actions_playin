@@ -63,6 +63,9 @@ jobs:
           git config --global user.name "Drew Bot" &&
           rm -rf github_actions_playin &&
           git add . &&
+          git add build &&
+          git status && 
+          find . | awk '!/node_modules/{print $0}' | awk '!/\.git/{print}' &&
           git commit -m 'auto build' &&
           git remote remove origin && 
           git remote add origin https://yeltnar:${{ secrets.GITHUB_TOKEN }}@github.com/yeltnar/github_actions_playin.git &&
