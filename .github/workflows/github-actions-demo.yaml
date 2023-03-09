@@ -37,7 +37,7 @@ jobs:
 
       - run: | 
           cd /tmp &&
-          git clone https://yeltnar:${{ secrets.GITHUB_TOKEN }}@github.com/yeltnar/movie.git
+          git clone https://yeltnar:${{ secrets.GITHUB_TOKEN }}@github.com/yeltnar/github_actions_playin.git
 
 
       # - run: |
