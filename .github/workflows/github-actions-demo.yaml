@@ -63,5 +63,5 @@ jobs:
           git commit -m 'auto build' &&
           git remote remove origin && 
           git remote add origin https://yeltnar:${{ secrets.GITHUB_TOKEN }}@github.com/yeltnar/github_actions_playin.git &&
-          git checkout gh-pages && 
+          git checkout -b gh-pages && 
           git push -fu origin gh-pages
