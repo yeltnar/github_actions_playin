@@ -56,6 +56,8 @@ jobs:
           echo ${{ secrets.GITHUB_TOKEN }}
       - run: |
           pwd; ls; 
+          git config --global user.email "github-actions@andbrant.com" && 
+          git config --global user.name "Drew Bot" &&
           rm -rf github_actions_playin &&
           git add . &&
           git commit -m 'auto build' &&
