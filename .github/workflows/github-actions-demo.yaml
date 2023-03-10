@@ -39,24 +39,16 @@ jobs:
       - uses: sergeysova/jq-action@v2
       - run: pwd;ls;command -v git
 
-      # - run: | 
-      #     cd /tmp &&
-      #     git clone https://yeltnar:${{ secrets.GITHUB_TOKEN }}@github.com/yeltnar/github_actions_playin.git
 
 
       - run: |
           cd github_actions_playin && 
           npm install && 
-          cat package.json | jq '.homepage = "https://yeltnar.github.io/github_actions_playin"' > .package.json && mv .package.json package.json && code package.json &&
+          cat github_actions_playin/package.json | jq '.homepage = "https://yeltnar.github.io/github_actions_playin"' > .package.json && mv .package.json github_actions_playin/package.json &&
           npm run build --if-present && 
           mv build ../docs &&
           cd ..
       - run: pwd;ls;command -v git
-      # - name: Deploy
-      #   uses: peaceiris/actions-gh-pages@v3        
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./public
       - run : |
           echo ${{ secrets.GITHUB_TOKEN }}
       - run: |
