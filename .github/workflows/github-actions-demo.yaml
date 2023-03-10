@@ -44,6 +44,7 @@ jobs:
       - run: |
           cd github_actions_playin && 
           npm install && 
+          command -v jq &&
           cat github_actions_playin/package.json | jq '.homepage = "https://yeltnar.github.io/github_actions_playin"' > .package.json && mv .package.json github_actions_playin/package.json &&
           npm run build --if-present && 
           mv build ../docs &&
