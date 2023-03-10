@@ -36,6 +36,7 @@ jobs:
     steps: 
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
+      - uses: sergeysova/jq-action@v2
       - run: pwd;ls;command -v git
 
       # - run: | 
@@ -46,6 +47,7 @@ jobs:
       - run: |
           cd github_actions_playin && 
           npm install && 
+          cat package.json | jq '.homepage = "https://yeltnar.github.io/github_actions_playin"' > .package.json && mv .package.json package.json && code package.json &&
           npm run build --if-present && 
           mv build ../docs &&
           cd ..
